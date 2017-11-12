@@ -22,7 +22,7 @@ def serialize(data, serialization_type):
       temp_list = []
       output_text += '['
       for item in data_chunk:
-        temp_list.append(serialize_html(item))
+        temp_list.append(serialize_to_json(item))
       output_text += ', '.join(temp_list)
       output_text += ']'
 
@@ -33,7 +33,7 @@ def serialize(data, serialization_type):
         temp_list.append(
           jsonify_str(key) +
           ': ' +
-          serialize_html(val)
+          serialize_to_json(val)
         )
       output_text += ', '.join(temp_list)
       output_text += '}'
@@ -71,3 +71,11 @@ def serialize(data, serialization_type):
     serialized_output = serialize_to_html(data)
 
   return serialized_output
+
+
+if __name__ == "__main__":
+  nestedList = ["rawr", 'b', 12]
+  testList = [1, "peep", True, nestedList]
+
+  print(serialize(testList, 'html'))
+  print(serialize(testList, 'json'))
