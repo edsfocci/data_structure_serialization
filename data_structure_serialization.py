@@ -26,14 +26,17 @@ def serialize(data, serialization_type):
       output_text += ']'
 
     elif type_of_data is dict:
-      temp_list = []
-      output_text += '{'
-      for key, val in data_chunk.items():
-        temp_list.append(
+      def jsonify_key_value(key_value_pair):
+        key, val = key_value_pair
+
+        return (
           jsonify_str(key) +
           ': ' +
           serialize_to_json(val)
         )
+
+      output_text += '{'
+      temp_list = list(map(jsonify_key_value, data_chunk.items()))
       output_text += ', '.join(temp_list)
       output_text += '}'
 
@@ -81,3 +84,4 @@ if __name__ == "__main__":
 
   print(serialize(testList, 'html'))
   print(serialize(testList, 'json'))
+  print(serialize({'a': 2, 'c': 'd', 'e': {'f': 'g'}, 'h': False}, 'json'))
