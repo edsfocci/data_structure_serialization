@@ -12,17 +12,16 @@ def serialize(data, serialization_type):
     output_text = ''
     type_of_data = type(data_chunk)
 
-    if type_of_data in {int, float}:
-      output_text = str(data_chunk)
+    if type_of_data in {int, float, bool}:
+      output_text = str(data_chunk).lower()
 
     elif type_of_data is str:
       output_text = jsonify_str(data_chunk)
 
     elif type_of_data is list:
-      temp_list = []
       output_text += '['
       for item in data_chunk:
-        temp_list.append(serialize_to_json(item))
+        temp_list = list(map(serialize_to_json, data_chunk))
       output_text += ', '.join(temp_list)
       output_text += ']'
 
@@ -46,6 +45,9 @@ def serialize(data, serialization_type):
 
     if type_of_data in {int, float, str}:
       output_text = str(data_chunk)
+
+    elif type_of_data is bool:
+      output_text = str(data_chunk).lower()
 
     elif type_of_data is list:
       output_text += '<ol>'
